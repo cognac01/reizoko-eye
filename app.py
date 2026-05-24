@@ -8,7 +8,7 @@ import google.genai as genai
 # ========================================================
 # ⚙️ 準備：アプリの基本設定（Nano-Banana ダークテーマ）
 # ========================================================
-st.set_page_config(page_title="れいぞうこアイ", page_icon="👁️", layout="centered")
+st.set_page_config(page_title="れいぞうこアイ", layout="centered")
 
 # ========================================================
 # 🔑 安全な金庫（Secrets）からAPIキーを自動で読み込む仕組み（完全流用）
