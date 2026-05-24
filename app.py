@@ -6,12 +6,12 @@ from PIL import Image
 import google.genai as genai
 
 # ========================================================
-# ⚙️ 準備：アプリの基本設定
+# ⚙️ 準備：アプリの基本設定（Nano-Banana ダークテーマ）
 # ========================================================
 st.set_page_config(page_title="れいぞうこアイ", page_icon="👁️", layout="centered")
 
 # ========================================================
-# 🔑 安全な金庫（Secrets）からAPIキーを自動で読み込む仕組み
+# 🔑 安全な金庫（Secrets）からAPIキーを自動で読み込む仕組み（完全流用）
 # ========================================================
 if "GEMINI_API_KEY" in st.secrets:
     API_KEY = st.secrets["GEMINI_API_KEY"]
@@ -20,21 +20,36 @@ elif "api_key" in st.secrets:
 else:
     API_KEY = ""
 
-# 🎨 デザインの調整（タブの文字を大きく、スマホ最適化）
+# 🎨 Nano-Banana 専用スタイル：黒背景、黄色の見出し、洗練されたダークUI
 st.markdown("""
     <style>
-    div[data-testid="stTabs"] button {
-        font-size: 16px !important;
-        font-weight: bold;
-    }
+    /* 全体の背景をスタイリッシュな黒に */
+    .stApp { background-color: #0f1115; color: #ffffff; }
+    
+    /* 文字の色調整：見出しを鮮やかなバナナイエローに */
+    h1, h2, h3 { color: #FFE135 !important; font-weight: 800 !important; }
+    p, span, label { color: #e5e7eb !important; }
+    
+    /* タブのデザインをカスタマイズ */
+    div[data-testid="stTabs"] button { font-size: 18px !important; font-weight: bold; color: #9ca3af !important; }
+    div[data-testid="stTabs"] button[aria-selected="true"] { color: #FFE135 !important; border-bottom-color: #FFE135 !important; }
+    
+    /* データ表（グリッド）をダークモードに調和 */
+    .stDataFrame { border-radius: 12px; overflow: hidden; background-color: #1a1d23; border: 1px solid #2d3139; }
+    
+    /* 折りたたみボックス（Expander）のデザイン */
+    div[data-testid="stExpander"] { background-color: #1a1d23; border: 1px solid #2d3139; border-radius: 12px; }
+    
+    /* 買い足しアラート（ダークモードに馴染む落ち着いた赤赤） */
+    .alert-box { background-color: #2c1a1a; padding: 15px; border-radius: 12px; border-left: 5px solid #ff6b6b; color: #ff8c8c; font-weight: bold; }
     </style>
 """, unsafe_allow_html=True)
 
-# 🎨 ロゴ部分
+# 🎨 ロゴ部分（Nano-Bananaの黒×黄色の枠線デザイン）
 st.markdown("""
-    <div style="background-color: white; padding: 15px; border-radius: 12px; border-bottom: 3px solid #4a90e2; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <h1 style="color: #4a90e2; margin: 0; font-size: 24px; font-weight: 800;">👁️ れいぞうこアイ</h1>
-        <p style="color: #7f8c8d; margin: 5px 0 0 0; font-size: 11px; font-weight: 600;">● 複数写真・高画質解析モード稼働中</p>
+    <div style="background-color: #1a1d23; padding: 20px; border-radius: 16px; border-left: 8px solid #FFE135; margin-bottom: 25px; box-shadow: 0 10px 15px rgba(0,0,0,0.3);">
+        <h1 style="color: #FFE135; margin: 0; font-size: 28px; font-weight: 800;">👁️ れいぞうこアイ 2.0</h1>
+        <p style="color: #9ca3af; margin: 5px 0 0 0; font-size: 12px; font-weight: 600;">Nano-Banana | 複数写真・高画質解析表モード</p>
     </div>
 """, unsafe_allow_html=True)
 
@@ -57,9 +72,9 @@ tab1, tab2 = st.tabs(["🛒 お店で確認", "📸 お家でパシャリ"])
 with tab1:
     # 🛍️ 最優先：買い足しアラート
     st.markdown("### 🚨 重複注意・残りわずか")
-    st.markdown(f'<div style="background-color: #fff0f0; padding: 15px; border-radius: 12px; border-left: 5px solid #ff6b6b; color: #c0392b; font-weight: bold; line-height: 1.6;">{st.session_state.ai_alert}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="alert-box">{st.session_state.ai_alert}</div>', unsafe_allow_html=True)
 
-    # 📊 メイン：AIが自動作成した在庫一覧表
+    # 📊 メイン：AIが自動作成した在庫一覧表（最上部に配置）
     st.markdown("### 🟢 現在あるもの一覧（AI解析）")
     if st.session_state.ai_table_data is not None:
         try:
@@ -91,9 +106,10 @@ with tab1:
                 st.toast(f"「{food_input}」を追加しました！")
                 st.rerun()
 
-    # 送信された写真のプレビュー
+    # 送信された写真のプレビュー（一番下へお引越し）
     if st.session_state.user_images:
-        st.markdown("### 📸 解析した写真")
+        st.markdown("---")
+        st.markdown("### 📸 今回スキャンした写真一覧")
         cols = st.columns(len(st.session_state.user_images))
         for idx, img in enumerate(st.session_state.user_images):
             with cols[idx]:
@@ -169,6 +185,7 @@ with tab2:
                 
                 st.success("🎉 全写真の統合・在庫表作成が完了しました！『お店で確認』タブを見てみてください！")
                 st.balloons()
+                st.rerun()
                 
             except Exception as e:
                 st.error(f"AI解析中にエラーが発生しました。鍵の設定を確認してください: {e}")
