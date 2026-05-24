@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import datetime
 from PIL import Image
-from google import genai
+import google.genai as genai
 
 # ========================================================
 # ⚙️ 準備：アプリの基本設定（スマホの見た目にする魔法）
