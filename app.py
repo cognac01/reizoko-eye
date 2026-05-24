@@ -48,8 +48,8 @@ st.markdown("""
 # 🎨 ロゴ部分（Nano-Bananaの黒×黄色の枠線デザイン）
 st.markdown("""
     <div style="background-color: #1a1d23; padding: 20px; border-radius: 16px; border-left: 8px solid #FFE135; margin-bottom: 25px; box-shadow: 0 10px 15px rgba(0,0,0,0.3);">
-        <h1 style="color: #FFE135; margin: 0; font-size: 28px; font-weight: 800;">👁️ れいぞうこアイ</h1>
-        <p style="color: #9ca3af; margin: 5px 0 0 0; font-size: 12px; font-weight: 600;">Nano-Banana | 複数写真・高画質解析表モード</p>
+        <h1 style="color: #FFE135; margin: 0; font-size: 28px; font-weight: 800;">れいぞうこアイ</h1>
+        <p style="color: #9ca3af; margin: 5px 0 0 0; font-size: 12px; font-weight: 600;">複数写真・高画質解析表モード</p>
     </div>
 """, unsafe_allow_html=True)
 
